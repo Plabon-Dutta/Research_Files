@@ -1,0 +1,43 @@
+%%time
+
+# Federated learning loop
+for epoch in range(NUM_EPOCHS):
+    print(f'[EPOCH #{epoch+1}] ------------------------ running epochs {epoch+1}')
+    # Create a copy of the global model for each client
+    client_models = []
+    for i in range(NUM_CLIENTS):
+        client_model = create_cnn_model(f"CLIENT[{i+1}]")
+        client_model.set_weights(global_model.get_weights())
+        client_models.append(client_model)
+    
+    # Train each client model on its own data
+    for i in range(NUM_CLIENTS):
+        # 
+
+        print(f'[CLIENT #{i+1}] ....................... training begins...')
+        start = i * (len(x_train) // NUM_CLIENTS)
+        end = (i+1) * (len(x_train) // NUM_CLIENTS)
+        if DEBUG is True:
+          print(f"[DEBUG] ################################## Client[{i+1}] - Training on x_train[{start}]:x_train[{end}]")
+        x_train_i = x_train[start:end]
+        y_train_i = y_train[start:end]
+        
+        # Local optimization on client model
+        optimizer = SGD(learning_rate=LEARNING_RATE)
+        client_models[i].compile(optimizer=optimizer, loss='categorical_crossentropy', metrics=['accuracy'])
+        # after Applying Local optimization not fit the local model
+        client_models[i].fit(x_train_i, y_train_i, batch_size=BATCH_SIZE, epochs=1, verbose=1)
+    
+    # Average the weights of the client models to update the global model
+    average_weights = []
+    for j in range(len(global_model.get_weights())):
+        layer_weights = np.array([client_models[i].get_weights()[j] for i in range(NUM_CLIENTS)])
+        average_layer_weights = np.mean(layer_weights, axis=0)
+        average_weights.append(average_layer_weights)
+    global_model.set_weights(average_weights)
+    
+    # Evaluate the global model
+    loss, acc = global_model.evaluate(x_test, y_test, verbose=0)
+    global_acc_list.append(acc)
+    global_loss_list.append(loss)
+    print('[SUMMARY] ------------------------ Epoch #{}, Global Test Loss: {}, Global Test Accuracy: {}\n'.format(epoch+1, loss, acc))
