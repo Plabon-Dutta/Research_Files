@@ -1,0 +1,6 @@
+average_weights = []
+    for j in range(len(global_model.get_weights())):
+        layer_weights = np.array([client_models[i].get_weights()[j] for i in range(NUM_CLIENTS)])
+        average_layer_weights = np.mean(layer_weights, axis=0)
+        average_weights.append(average_layer_weights)
+    global_model.set_weights(average_weights)
