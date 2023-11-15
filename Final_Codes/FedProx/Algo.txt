@@ -1,0 +1,20 @@
+import numpy as np
+
+# Define the proximal coefficient (a hyperparameter)
+proximal_coefficient = 0.1
+
+average_weights = []
+global_weights = global_model.get_weights()
+
+for j in range(len(global_weights)):
+    layer_weights = np.array([client_models[i].get_weights()[j] for i in range(NUM_CLIENTS)])
+    average_layer_weights = np.mean(layer_weights, axis=0)
+    
+    # Calculate the proximal update term by subtracting the global weights from the average layer weights
+    proximal_update = (average_layer_weights - global_weights[j]) * proximal_coefficient
+    
+    # Update the global weights with the proximal term
+    updated_layer_weights = global_weights[j] + proximal_update
+    average_weights.append(updated_layer_weights)
+
+global_model.set_weights(average_weights)
