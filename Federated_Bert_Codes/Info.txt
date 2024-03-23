@@ -1,0 +1,16 @@
+EN Dataset - https://www.kaggle.com/datasets/gokulraja84/emails-dataset-for-spam-detection
+
+Translated Dataset Summary- 
+Total Data instance= 5726
+	Ham 	=  4358
+	Spam 	=  1368
+Train-Val-Test Distribution = 70-15-15 (4008 859 859)
+
+
+Hyperparams
+n_clients = 4
+rounds = 10
+
+learning_rate = 1e-6
+criterion = CrossEntropyLoss
+optimizer = Adam
