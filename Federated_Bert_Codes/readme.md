@@ -1,4 +1,4 @@
-# EmojiSculpt: Federated Learning-Based Architecture for Personalized Next Emoji Prediction
+# Federated Learning-Based Architecture for Personalized Next Emoji Prediction
 
 [![Paper](https://img.shields.io/badge/Paper-IEEE%20Access-blue)]()
 [![Python](https://img.shields.io/badge/Python-3.9+-green)]()
