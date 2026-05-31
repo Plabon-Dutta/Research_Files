@@ -112,15 +112,9 @@ The results demonstrate that privacy-preserving federated learning can achieve h
 Clone the repository:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/EmojiSculpt-FL.git
+git clone https://github.com/Plabon-Dutta/Research_Files.git
 
-cd EmojiSculpt-FL
-```
-
-Install dependencies:
-
-```bash
-pip install -r requirements.txt
+cd Federated_Bert_Codes
 ```
 
 Launch Jupyter Notebook:
